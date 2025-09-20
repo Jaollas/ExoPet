@@ -1,4 +1,4 @@
-const API_URL = "http://127.0.0.1:8000/animais/";
+const API_URL = "http://127.0.0.1:8000/animais";
 
 function getIdFromUrl() {
   const params = new URLSearchParams(window.location.search);
@@ -10,15 +10,9 @@ async function carregarDetalhes() {
   if (!id) return;
 
   try {
-    const response = await fetch(API_URL);
-    if (!response.ok) throw new Error("Erro ao buscar animais");
-    const animais = await response.json();
-
-    const animal = animais.find(a => a.id == id);
-    if (!animal) {
-      document.getElementById("detalhes-container").innerHTML = "<p>Animal não encontrado.</p>";
-      return;
-    }
+    const response = await fetch(`${API_URL}/${id}`);
+    if (!response.ok) throw new Error("Erro ao buscar detalhes do animal");
+    const animal = await response.json();
 
     const container = document.getElementById("detalhes-container");
     container.innerHTML = `
@@ -26,7 +20,7 @@ async function carregarDetalhes() {
       <p><strong>Espécie:</strong> ${animal.especie}</p>
       <p><strong>Descrição:</strong> ${animal.descricao}</p>
       <p><strong>Preço:</strong> R$ ${animal.preco}</p>
-      <p><strong>Dono:</strong> ${animal.dono_id}</p>
+      <p><strong>Dono (ID):</strong> ${animal.dono_id}</p>
     `;
   } catch (error) {
     console.error(error);

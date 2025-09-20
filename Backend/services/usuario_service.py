@@ -32,3 +32,14 @@ def listar_usuarios():
     rows = cursor.fetchall()
     conn.close()
     return [{"id": r[0], "nome": r[1], "email": r[2], "senha": r[3]} for r in rows]
+
+def autenticar_usuario(email: str, senha: str):
+    conn = sqlite3.connect(DB_NAME)
+    cursor = conn.cursor()
+    cursor.execute("SELECT id, nome, email FROM usuarios WHERE email = ? AND senha = ?", (email, senha))
+    row = cursor.fetchone()
+    conn.close()
+    if row:
+        return {"id": row[0], "nome": row[1], "email": row[2]}
+    return None
+

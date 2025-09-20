@@ -35,3 +35,13 @@ def listar_animais():
     rows = cursor.fetchall()
     conn.close()
     return [{"id": r[0], "nome": r[1], "especie": r[2], "descricao": r[3], "preco": r[4], "dono_id": r[5]} for r in rows]
+
+def obter_animal_por_id(animal_id: int):
+    conn = sqlite3.connect(DB_NAME)
+    cursor = conn.cursor()
+    cursor.execute("SELECT id, nome, especie, descricao, preco, dono_id FROM animais WHERE id = ?", (animal_id,))
+    row = cursor.fetchone()
+    conn.close()
+    if row:
+        return {"id": row[0], "nome": row[1], "especie": row[2], "descricao": row[3], "preco": row[4], "dono_id": row[5]}
+    return None
