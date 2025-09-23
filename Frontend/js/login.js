@@ -6,7 +6,6 @@ document.getElementById("login-form").addEventListener("submit", async (e) => {
   const email = document.getElementById("email").value;
   const senha = document.getElementById("senha").value;
 
-
   try {
     const urlComParametros = `${API_URL}?email=${encodeURIComponent(email)}&senha=${encodeURIComponent(senha)}`;
 
@@ -17,13 +16,15 @@ document.getElementById("login-form").addEventListener("submit", async (e) => {
     if (!response.ok) throw new Error("Erro no login");
 
     const data = await response.json();
-    document.getElementById("mensagem").textContent = data.message;
-    document.getElementById("mensagem").className = "text-success";
 
-    localStorage.setItem("usuario", JSON.stringify(data.usuario));
+    localStorage.setItem("userId", data.usuario.id);
+    localStorage.setItem("userName", data.usuario.nome);
+    localStorage.setItem("userEmail", data.usuario.email);
+    localStorage.setItem("isLoggedIn", true);
+
+    window.location.href = "usuario.html";
 
   } catch (error) {
-    console.error("Erro ao fazer login:", error);
     document.getElementById("mensagem").textContent = "Credenciais inválidas.";
     document.getElementById("mensagem").className = "text-danger";
   }

@@ -38,3 +38,8 @@
   <p id="mensagem" class="mt-3"></p>
 </body>
 </html>
+<script>
+  if (!localStorage.getItem("isLoggedIn")) {
+    window.location.href = "login.html";
+  }
+</script>

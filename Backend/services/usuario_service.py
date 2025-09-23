@@ -43,3 +43,12 @@ def autenticar_usuario(email: str, senha: str):
         return {"id": row[0], "nome": row[1], "email": row[2]}
     return None
 
+def obter_usuario_por_id(usuario_id: int):
+    conn = sqlite3.connect(DB_NAME)
+    cursor = conn.cursor()
+    cursor.execute("SELECT id, nome, email FROM usuarios WHERE id = ?", (usuario_id,))
+    row = cursor.fetchone()
+    conn.close()
+    if row:
+        return {"id": row[0], "nome": row[1], "email": row[2]}
+    return None

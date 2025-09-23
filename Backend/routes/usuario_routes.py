@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from models.usuario import Usuario
-from services.usuario_service import adicionar_usuario, listar_usuarios, autenticar_usuario
+from services.usuario_service import adicionar_usuario, listar_usuarios, autenticar_usuario, obter_usuario_por_id
 
 router = APIRouter(prefix="/usuarios", tags=["Usuários"])
 
@@ -25,3 +25,11 @@ def login(email: str, senha: str):
 @router.post("/logout")
 def logout():
     return {"message": "Logout realizado com sucesso!"}
+
+@router.get("/{usuario_id}")
+def obter_usuario(usuario_id: int):
+    usuario = obter_usuario_por_id(usuario_id)
+    if not usuario:
+        raise HTTPException(status_code=404, detail="Usuário não encontrado")
+    return usuario
+
