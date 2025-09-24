@@ -8,7 +8,7 @@ document.getElementById("animal-form").addEventListener("submit", async (e) => {
     especie: document.getElementById("especie").value,
     descricao: document.getElementById("descricao").value,
     preco: parseFloat(document.getElementById("preco").value),
-    dono_id: parseInt(document.getElementById("dono_id").value)
+    dono_id: parseInt(localStorage.getItem("userId"))
   };
 
   try {
